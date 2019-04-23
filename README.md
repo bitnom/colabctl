@@ -3,3 +3,5 @@ Task executioner &amp; controller for Google Colaboratory notebooks. Google Cola
 
 ## Roadmap
 The first and current version simply runs a colaboratory notebook and prints the output. The next version will use threading to manage an arbitrary number of notebooks as a proper ctl.
+
+Pull requests welcomed.
