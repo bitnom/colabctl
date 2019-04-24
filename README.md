@@ -12,6 +12,6 @@ Pull requests welcomed.
 
 ## Important!!!
 
-Notice that the example delay is 1,800 seconds (30 minutes). Please DO NOT poll Google Colaboratory frequently. We're very lucky to have these notebooks and even luckier that this ctl is even possible. Please don't push them to block us from doing this.
+Notice that the example delay is 1,800 seconds (30 minutes). Please **DO NOT poll Google Colaboratory frequently**. We're very lucky to have these notebooks and even luckier that this ctl is even possible. Please don't push them to block us from doing this.
 
 Thank you
