@@ -85,7 +85,7 @@ while not exists_by_text(wd, "Sign in"):
     if exists_by_text(wd, "Notebook loading error"):
         wd.get(colab_url)
     try:
-        wd.find_element_by_xpath('/html/body/div[7]/div[1]/div[2]/colab-connect-button/colab-toolbar-button[1]/paper-button/iron-icon')
+        wd.find_element_by_xpath('//*[@id="file-menu-button"]/div/div/div[1]')
         if not running:
             wd.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.F9)
             running = True
