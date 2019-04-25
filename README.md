@@ -15,6 +15,10 @@ At the end of your notebook, add: `print("forkin"+"me")`
 
 Now you're ready:
 
+`python colabctl.py <end-string> <sleep-seconds>`
+
+Example:
+
 `python colabctl.py forkinme 1800`
 
 ## Important!!!
