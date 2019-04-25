@@ -10,6 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import pickle
 import time
+import validators
 
 
 def sleep(seconds):
@@ -74,9 +75,23 @@ def scroll_to_bottom(driver):
             break
         last_height = new_height
 
+
+def file_to_list(filename):
+    colabs = []
+    for line in open(filename):
+        if validators.url(line):
+            colabs.append(line)
+    return colabs
+    
+
 fork = sys.argv[1]
 timeout = int(sys.argv[2])
-colab_url = sys.argv[3]
+colab_urls = file_to_list('notebooks.csv')
+
+if len(colab_urls) > 0 and validators.url(colab_urls[0]):
+    colab_1 = colab_urls[0]
+else:
+    raise Exception('No notebooks')
 
 chrome_options = Options()
 #chrome_options.add_argument('--headless') # uncomment for headless mode
@@ -85,13 +100,13 @@ chrome_options.add_argument('--no-sandbox')
 chrome_options.add_argument('--disable-dev-shm-usage')
 wd = webdriver.Chrome('chromedriver', options=chrome_options)
 
-wd.get(colab_url)
+wd.get(colab_1)
 try:
     for cookie in pickle.load(open("gCookies.pkl", "rb")):
         wd.add_cookie(cookie)
 except Exception:
     pass
-wd.get(colab_url)
+wd.get(colab_1)
 
 if exists_by_text(wd, "Sign in"):
     print("No auth cookie detected. Please login to Google.")
@@ -110,42 +125,51 @@ if exists_by_text(wd, "Sign in"):
     wd.quit()
     wd = webdriver.Chrome('chromedriver', options=chrome_options)
 
-wd.get(colab_url)
-print("Logged in.") # for debugging
-running = False
-wait_for_xpath(wd, '//*[@id="file-menu-button"]/div/div/div[1]')
-print('Notebook loaded.')
+for colab_url in colab_urls:
+    complete = False
+    wd.get(colab_url)
+    print("Logged in.") # for debugging
+    running = False
+    wait_for_xpath(wd, '//*[@id="file-menu-button"]/div/div/div[1]')
+    print('Notebook loaded.')
 
-while not exists_by_text(wd, "Sign in"):
-    if exists_by_text(wd, "Runtime disconnected"):
+    while not exists_by_text(wd, "Sign in"):
+        if exists_by_text(wd, "Runtime disconnected"):
+            try:
+                wd.find_element_by_xpath('//*[@id="ok"]').click()
+            except NoSuchElementException:
+                pass
+        if exists_by_text2(wd, "Notebook loading error"):
+            wd.get(colab_url)
         try:
-            wd.find_element_by_xpath('//*[@id="ok"]').click()
+            wd.find_element_by_xpath('//*[@id="file-menu-button"]/div/div/div[1]')
+            if not running:
+                wd.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.SHIFT + "q")
+                wd.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.F9)
+                running = True
         except NoSuchElementException:
             pass
-    if exists_by_text2(wd, "Notebook loading error"):
-        wd.get(colab_url)
-    try:
-        wd.find_element_by_xpath('//*[@id="file-menu-button"]/div/div/div[1]')
-        if not running:
-            wd.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.SHIFT + "q")
-            wd.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.F9)
-            running = True
-    except NoSuchElementException:
-        pass
-    if running:
-        try:
-            wd.find_element_by_css_selector('.notebook-content-background').click()
-            #actions = ActionChains(wd)
-            #actions.send_keys(Keys.SPACE).perform()
-            scroll_to_bottom(wd)
-            print("performed scroll")
-        except:
-            pass
-        for frame in wd.find_elements_by_tag_name('iframe'):
-            wd.switch_to.frame(frame)
-            for output in wd.find_elements_by_tag_name('pre'):
-                if fork in output.text:
-                    running = False
-                    print("Completion string found. Waiting for next cycle.")
-                    sleep(timeout)
-            wd.switch_to.default_content()            
+        if running:
+            try:
+                wd.find_element_by_css_selector('.notebook-content-background').click()
+                #actions = ActionChains(wd)
+                #actions.send_keys(Keys.SPACE).perform()
+                scroll_to_bottom(wd)
+                print("performed scroll")
+            except:
+                pass
+            for frame in wd.find_elements_by_tag_name('iframe'):
+                wd.switch_to.frame(frame)
+                for output in wd.find_elements_by_tag_name('pre'):
+                    if fork in output.text:
+                        running = False
+                        complete = True
+                        print("Completion string found. Waiting for next cycle.")
+                        break
+                wd.switch_to.default_content()
+                if complete:
+                    break
+            if complete:
+                break
+    sleep(timeout)
+
