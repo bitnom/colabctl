@@ -13,7 +13,7 @@ At the end of your notebook, add: `print("forkin"+"me")`
 
 Now you're ready:
 
-`python colabctl.py forkinme 1800
+`python colabctl.py forkinme 1800`
 
 ## Important!!!
 
