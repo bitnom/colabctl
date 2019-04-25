@@ -6,6 +6,7 @@ The first and current version simply runs a colaboratory notebook until the text
 
 ## Usage
 In colab, go to `tools -> keyboard shortcuts` and set "Clear all outputs" to `CTRL + SHIFT + Q`
+
 `python colabctl.py forkinme 1800 https://colab.research.google.com/drive/yournotebookurl`
 
 **At the end of the notebook:** `print("forkin"+"me")`
