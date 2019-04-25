@@ -7,6 +7,8 @@ Currently, colabctl reads from the file `notebooks.csv` your list of Colaborator
 Pull requests welcomed.
 
 ## Usage
+First, add your Colaboratory URLs to `notebooks.csv`.
+
 In colab, go to `tools -> keyboard shortcuts` and set "Clear all outputs" to `CTRL + SHIFT + Q`
 
 At the end of your notebook, add: `print("forkin"+"me")`
