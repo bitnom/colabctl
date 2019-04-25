@@ -1,8 +1,8 @@
-# colabctl v0.2
+# colabctl v0.21
 Task executioner &amp; controller for Google Colaboratory notebooks. Google Colaboratory is a game-changing innovation. It allows anyone to access powerful hardware for machine learning, for free. Unfortunately, it's not possible to run colab notebooks programmatically or otherwise in the background unless you leave your browser running. Colabctl is a sort of shim that solves this problem by using headless Selenium.
 
 ## Roadmap
-The first and current version simply runs a colaboratory notebook until the text is detected, waits and runs the notebook again. The next version will use threading to manage an arbitrary number of notebooks as a proper ctl.
+Currently, colabctl reads from the file `notebooks.csv` your list of Colaboratory URLs. It runs each notebook (In order, synchronously) and then pauses for a period of n seconds of time before running them again.
 
 Pull requests welcomed.
 
@@ -13,7 +13,7 @@ At the end of your notebook, add: `print("forkin"+"me")`
 
 Now you're ready:
 
-`python colabctl.py forkinme 1800 https://colab.research.google.com/drive/yournotebookurl`
+`python colabctl.py forkinme 1800
 
 ## Important!!!
 
