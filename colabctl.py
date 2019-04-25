@@ -94,7 +94,7 @@ else:
     raise Exception('No notebooks')
 
 chrome_options = Options()
-#chrome_options.add_argument('--headless') # uncomment for headless mode
+chrome_options.add_argument('--headless') # uncomment for headless mode
 chrome_options.add_argument('--no-sandbox')
 #chrome_options.add_argument("user-data-dir=profile") # left for debugging
 chrome_options.add_argument('--disable-dev-shm-usage')
