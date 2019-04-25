@@ -4,6 +4,8 @@ Task executioner &amp; controller for Google Colaboratory notebooks. Google Cola
 ## Roadmap
 The first and current version simply runs a colaboratory notebook until the text is detected, waits and runs the notebook again. The next version will use threading to manage an arbitrary number of notebooks as a proper ctl.
 
+Pull requests welcomed.
+
 ## Usage
 In colab, go to `tools -> keyboard shortcuts` and set "Clear all outputs" to `CTRL + SHIFT + Q`
 
@@ -12,10 +14,6 @@ At the end of your notebook, add: `print("forkin"+"me")`
 Now you're ready:
 
 `python colabctl.py forkinme 1800 https://colab.research.google.com/drive/yournotebookurl`
-
-
-
-Pull requests welcomed.
 
 ## Important!!!
 
