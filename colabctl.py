@@ -29,6 +29,13 @@ def exists_by_text2(driver, text):
     return True
 
 
+def exists_by_xpath(driver, thex, howlong):
+    try:
+        WebDriverWait(driver, howlong).until(ec.visibility_of_element_located((By.XPATH, thex)))
+    except:
+        return False
+
+
 def exists_by_text(driver, text):
     driver.implicitly_wait(2)
     try:
@@ -124,52 +131,57 @@ if exists_by_text(wd, "Sign in"):
     wd.close()
     wd.quit()
     wd = webdriver.Chrome('chromedriver', options=chrome_options)
+while True:
+    for colab_url in colab_urls:
+        complete = False
+        wd.get(colab_url)
+        print("Logged in.") # for debugging
+        running = False
+        wait_for_xpath(wd, '//*[@id="file-menu-button"]/div/div/div[1]')
+        print('Notebook loaded.')
+        sleep(10)
 
-for colab_url in colab_urls:
-    complete = False
-    wd.get(colab_url)
-    print("Logged in.") # for debugging
-    running = False
-    wait_for_xpath(wd, '//*[@id="file-menu-button"]/div/div/div[1]')
-    print('Notebook loaded.')
-
-    while not exists_by_text(wd, "Sign in"):
-        if exists_by_text(wd, "Runtime disconnected"):
+        while not exists_by_text(wd, "Sign in"):
+            if exists_by_text(wd, "Runtime disconnected"):
+                try:
+                    wd.find_element_by_xpath('//*[@id="ok"]').click()
+                except NoSuchElementException:
+                    pass
+            if exists_by_text2(wd, "Notebook loading error"):
+                wd.get(colab_url)
             try:
-                wd.find_element_by_xpath('//*[@id="ok"]').click()
+                wd.find_element_by_xpath('//*[@id="file-menu-button"]/div/div/div[1]')
+                if not running:
+                    wd.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.SHIFT + "q")
+                    wd.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.SHIFT + "k")
+                    exists_by_xpath(wd, '//*[@id="ok"]', 10)
+                    wd.find_element_by_xpath('//*[@id="ok"]').click()
+                    sleep(10)
+                    wd.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.F9)
+                    running = True
             except NoSuchElementException:
                 pass
-        if exists_by_text2(wd, "Notebook loading error"):
-            wd.get(colab_url)
-        try:
-            wd.find_element_by_xpath('//*[@id="file-menu-button"]/div/div/div[1]')
-            if not running:
-                wd.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.SHIFT + "q")
-                wd.find_element_by_tag_name('body').send_keys(Keys.CONTROL + Keys.F9)
-                running = True
-        except NoSuchElementException:
-            pass
-        if running:
-            try:
-                wd.find_element_by_css_selector('.notebook-content-background').click()
-                #actions = ActionChains(wd)
-                #actions.send_keys(Keys.SPACE).perform()
-                scroll_to_bottom(wd)
-                print("performed scroll")
-            except:
-                pass
-            for frame in wd.find_elements_by_tag_name('iframe'):
-                wd.switch_to.frame(frame)
-                for output in wd.find_elements_by_tag_name('pre'):
-                    if fork in output.text:
-                        running = False
-                        complete = True
-                        print("Completion string found. Waiting for next cycle.")
+            if running:
+                
+                try:
+                    wd.find_element_by_css_selector('.notebook-content-background').click()
+                    #actions = ActionChains(wd)
+                    #actions.send_keys(Keys.SPACE).perform()
+                    scroll_to_bottom(wd)
+                    print("performed scroll")
+                except:
+                    pass
+                for frame in wd.find_elements_by_tag_name('iframe'):
+                    wd.switch_to.frame(frame)
+                    for output in wd.find_elements_by_tag_name('pre'):
+                        if fork in output.text:
+                            running = False
+                            complete = True
+                            print("Completion string found. Waiting for next cycle.")
+                            break
+                    wd.switch_to.default_content()
+                    if complete:
                         break
-                wd.switch_to.default_content()
                 if complete:
                     break
-            if complete:
-                break
     sleep(timeout)
-
