@@ -89,6 +89,26 @@ def file_to_list(filename):
         if validators.url(line):
             colabs.append(line)
     return colabs
+
+
+def switch_to_tab(driver, tab_index):
+    print("Switching to tab " + str(tab_index))
+    try:
+        driver.switch_to.window(driver.window_handles[tab_index])
+    except:
+        print("Error switching tabs.")
+        return False
+
+
+def new_tab(driver, url, tab_index):
+    print("Opening new tab to " + str(url))
+    try:
+        driver.execute_script("window.open('" + str(url) + "')")
+    except:
+        print("Error opening new tab.")
+        return False
+    switch_to_tab(driver, tab_index)
+    return True
     
 
 fork = sys.argv[1]
@@ -162,7 +182,6 @@ while True:
             except NoSuchElementException:
                 pass
             if running:
-                
                 try:
                     wd.find_element_by_css_selector('.notebook-content-background').click()
                     #actions = ActionChains(wd)
@@ -173,6 +192,14 @@ while True:
                     pass
                 for frame in wd.find_elements_by_tag_name('iframe'):
                     wd.switch_to.frame(frame)
+                    '''
+                    links = browser.find_elements_by_partial_link_text('oauth2/auth')
+                    for link in links:
+                        new_tab(wd, link.get_attribute("href"), 1)
+                        wd.find_element_by_css_selector('li.M8HEDc:nth-child(1)>div:nth-child(1)').click()
+                        wd.find_element_by_css_selector('#submit_approve_access>content:nth-child(3)>span:nth-child(1)').click()
+                        auth_code = wd.find_element_by_xpath('/html/body/div[1]/div[1]/div[2]/div[2]/div/div/div[2]/div/div/div/form/content/section/div/content/div/div/div/textarea').text
+                    '''
                     for output in wd.find_elements_by_tag_name('pre'):
                         if fork in output.text:
                             running = False
