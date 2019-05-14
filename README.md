@@ -10,6 +10,7 @@ Pull requests welcomed.
 First, add your Colaboratory URLs to `notebooks.csv`.
 
 In colab, go to `tools -> keyboard shortcuts` and set "Clear all outputs" to `CTRL + SHIFT + Q`
+
 In colab, go to `tools -> keyboard shortcuts` and set "Reset all runtimes" to `CTRL + SHIFT + k`
 
 At the end of your notebook, add: `print("forkin"+"me")`
