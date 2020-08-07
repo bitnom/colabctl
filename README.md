@@ -13,7 +13,7 @@ done.
 
 ## TODOs
 
-- [ ] Resolve issues TensorTom/colabctl#1 TensorTom/colabctl#2 TensorTom/colabctl#3 TensorTom/colabctl#4
+- [ ] Resolve issues [#1](https://github.com/TensorTom/colabctl/issues/1) [#2](https://github.com/TensorTom/colabctl/issues/2) [#3](https://github.com/TensorTom/colabctl/issues/3) [#4](https://github.com/TensorTom/colabctl/issues/4)
 - [ ] Async execution of tasks.
 - [ ] Proper module structure for user command install via pip.
 - [ ] Better args parsing.
