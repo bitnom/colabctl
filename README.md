@@ -13,7 +13,7 @@ done.
 
 ## TODOs
 
-- [ ] Resolve issues #1 #2 #3 #4
+- [ ] Resolve issues colabctl/#1 colabctl/#2 colabctl/#3 colabctl/#4
 - [ ] Async execution of tasks.
 - [ ] Proper module structure for user command install via pip.
 - [ ] Better args parsing.
