@@ -11,10 +11,14 @@ After realizing a few issues being submitted, I reran the code and saw that ther
 changing their code. I'm now working to correct them. It shouldn't take too long, depending on what exactly they've
 done.
 
-## Roadmap
+## TODOs
 
-Currently, colabctl reads from the file `notebooks.csv` your list of Colaboratory URLs. It runs each notebook (In order,
-synchronously) and then pauses for a period of n seconds of time before running them again.
+- [ ] Resolve issues #1 #2 #3 #4
+- [ ] Async execution of tasks.
+- [ ] Proper module structure for user command install via pip.
+- [ ] Better args parsing.
+- [ ] Revise & refactor the Seleium code.
+- [ ] Proper logging.
 
 Pull requests welcomed.
 
