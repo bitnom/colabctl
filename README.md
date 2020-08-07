@@ -13,7 +13,7 @@ done.
 
 ## TODOs
 
-- [ ] Resolve issues colabctl#1 colabctl#2 colabctl#3 colabctl#4
+- [ ] Resolve issues TensorTom/colabctl#1 TensorTom/colabctl#2 TensorTom/colabctl#3 TensorTom/colabctl#4
 - [ ] Async execution of tasks.
 - [ ] Proper module structure for user command install via pip.
 - [ ] Better args parsing.
