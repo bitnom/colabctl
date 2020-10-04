@@ -11,6 +11,8 @@ After realizing a few issues being submitted, I reran the code and saw that ther
 changing their code. I'm now working to correct them. It shouldn't take too long, depending on what exactly they've
 done.
 
+**Update:** Work on fixes has finally begun. I'm attempting to switch from Selenium to Pyppeteer.
+
 ## TODOs
 
 - [ ] Resolve issues [#1](https://github.com/TensorTom/colabctl/issues/1) [#2](https://github.com/TensorTom/colabctl/issues/2) [#3](https://github.com/TensorTom/colabctl/issues/3) [#4](https://github.com/TensorTom/colabctl/issues/4)
